@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+
+{% block contents %}
+<div class="contents">
+    <h1>To do List</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Task</th>
+                <th>Date Created</th>
+                <th>Due Date</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% if tasks %}
+                {% for t in tasks %}
+                    {% set is_overdue = t.dueDate < now and not t.isCompleted %}
+                    <tr class="{% if t.isCompleted %}completed{% elif is_overdue %}overdue{% endif %}">
+                        <td>{{ t.task }}</td>
+                        <td>{{ t.dateCreated.strftime('%d-%b-%Y') }}</td>
+                        <td>{{ t.dueDate.strftime('%d-%b-%Y') }}</td>
+                        <td>
+                            <form action="{{ url_for('complete_task', task_id=t.id) }}" method="post" style="display:inline;">
+                                <button type="submit" class="complete">
+                                    {% if t.isCompleted %}Undo{% else %}Completed{% endif %}
+                                </button>
+                            </form>
+                            <a href="{{ url_for('update_task', task_id=t.id) }}" class="update">Update</a>
+                            <form action="{{ url_for('delete_task', task_id=t.id) }}" method="post" style="display:inline;">
+                                <button type="submit" class="delete">Delete</button>
+                            </form>
+                        </td>
+                    </tr>
+                {% endfor %}
+            {% else %}
+                <tr>
+                    <td colspan="4" style="text-align:center">No tasks yet.</td>
+                </tr>
+            {% endif %}
+        </tbody>
+    </table>
+
+    <br><hr>
+
+    <div class="createTask">
+        <h3 style="text-align: center; margin-top: 30px;">Add Task</h3>
+        <form action="{{ url_for('index') }}" method="post" style="padding: 5px 0;">
+            <input type="text" name="task" placeholder="Enter your task" required>
+            <label for="date">Due Date</label>
+            <input type="date" name="dueDate" required><br><br>
+            <input type="submit" value="Add Task">
+        </form>
+    </div>
+</div>
+{% endblock %}

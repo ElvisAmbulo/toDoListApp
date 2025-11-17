@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block tittle %}Register{% endblock %}
+
+{% block contents %}
+    <div class="contents">
+        <h1>Register</h1>
+
+        <form action="" method="POST">
+            <input type="text" name="username" id="" placeholder="Enter your Username" required>
+            <input type="email" name="email" id="" placeholder="Enter your Email">
+            <input type="password" name="password" id="" placeholder="Enter Your Password" required>
+            <input type="password" name="password2" id="" placeholder="Confirm your Password">
+            <input type="submit" value="Register">
+
+            <p>Already have an accout? <a href="/login">Login</a></p>
+        </form>
+    </div>
+
+{% endblock %}

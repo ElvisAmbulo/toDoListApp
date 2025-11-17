@@ -1,0 +1,149 @@
+/* Reset and basic styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+body {
+    font-family: Arial, Helvetica, sans-serif;
+}
+nav {
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    background-color: #0a4c7e;
+    color: #fff;
+    justify-content: space-around;
+}
+nav .logo {
+    font-size: 1.5em;
+    cursor: pointer;
+    font-weight: 600;
+}
+#nav-toggle {
+    display: none;
+}
+.navlinks a {
+    color: #fff;
+    text-decoration: none;
+    padding: 5px 10px;
+}
+.navlinks a:hover {
+    color: #777;
+}
+.toggler {
+    font-size: 25px;
+    font-weight: bold;
+    cursor: pointer;
+    display: none;
+}
+
+/* Content wrapper */
+.contents {
+    margin: 50px auto;
+    max-width: 80%;
+    align-items: center;
+}
+.contents h1 {
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+/* Table styling */
+.contents table {
+    border-collapse: collapse;
+    width: 100%;
+    margin: 0 auto;
+}
+.contents table th,
+.contents table td {
+    border: 1px solid #444;
+    padding: 10px;
+    text-align: left;
+}
+.contents table th {
+    background-color: #0a4c7e;
+    color: white;
+}
+
+/* Overdue task row */
+.overdue {
+    background-color: #f8d7da; /* light red */
+}
+
+/* Completed task row */
+.completed {
+    background-color: #e0e0e0; /* light grey */
+    color: #888; /* text grey */
+    text-decoration: line-through; /* line through text */
+}
+
+/* Action buttons */
+.contents table button.complete {
+    background-color: green;
+    color: white;
+    border: none;
+    padding: 3px 6px;
+    border-radius: 3px;
+    cursor: pointer;
+}
+.contents table button.complete:hover {
+    background-color: darkgreen;
+}
+
+.contents table button.delete {
+    background-color: red;
+    color: white;
+    border: none;
+    padding: 3px 6px;
+    border-radius: 3px;
+    cursor: pointer;
+}
+.contents table button.delete:hover {
+    background-color: darkred;
+}
+
+.contents table a.update {
+    background-color: goldenrod;
+    color: white;
+    padding: 3px 6px;
+    border-radius: 3px;
+    text-decoration: none;
+}
+.contents table a.update:hover {
+    background-color: #e0b800;
+}
+
+/* Form styling */
+form {
+    max-width: 500px;
+    margin: 0 auto;
+    padding: 20px;
+}
+form input[type='text'],
+form input[type='email'],
+form input[type='password'],
+form input[type='date'] {
+    padding: 5px;
+    width: 100%;
+    margin-bottom: 5px;
+    border: 1px solid rgb(10, 56, 99);
+    border-radius: 3px;
+}
+form input[type='submit'] {
+    width: 100%;
+    padding: 5px;
+    border: none;
+    background-color: rgb(7, 66, 103);
+    color: #fff;
+    font-size: 18px;
+    cursor: pointer;
+    border-radius: 4px;
+    margin-bottom: 10px;
+}
+form input[type='submit']:hover {
+    background-color: rgb(5, 52, 81);
+}
+form p {
+    font-size: 14px;
+}
