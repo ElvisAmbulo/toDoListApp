@@ -3,6 +3,7 @@ import config
 from flask_mysqldb import MySQL
 from werkzeug.security import generate_password_hash, check_password_hash
 from datetime import datetime, date
+import os
 
 app = Flask(__name__)
 app.secret_key = "qwertyuiop"
@@ -10,7 +11,8 @@ app.secret_key = "qwertyuiop"
 # ---------- MySQL config ----------
 app.config['MYSQL_HOST'] = config.MYSQL_HOST
 app.config['MYSQL_USER'] = config.MYSQL_USER
-app.config['MYSQL_PASSWORD'] = config.MYSQL_PASSWORD
+# Use environment variable if available (recommended for PythonAnywhere)
+app.config['MYSQL_PASSWORD'] = os.environ.get('MYSQL_PASSWORD', config.MYSQL_PASSWORD)
 app.config['MYSQL_DB'] = config.MYSQL_DB
 app.config['MYSQL_CURSORCLASS'] = 'DictCursor'
 
@@ -33,28 +35,26 @@ def index():
             flash('Task and due date are required!', 'error')
             return redirect(url_for('index'))
 
+        cur = mysql.connection.cursor()
         try:
-            cur = mysql.connection.cursor()
             cur.execute(
                 "INSERT INTO tasks (task, dueDate, userId) VALUES (%s,%s,%s)",
                 (task, dueDate, user_id)
             )
             mysql.connection.commit()
-            cur.close()
             flash('Task added successfully!', 'success')
-            return redirect(url_for('index'))
         except Exception as e:
-            try: cur.close()
-            except: pass
             mysql.connection.rollback()
             flash('Error adding task!', 'error')
             app.logger.exception("Task insert error")
-            return redirect(url_for('index'))
+        finally:
+            cur.close()
+        return redirect(url_for('index'))
 
-    # Fetch tasks (stable order by id)
+    # Fetch tasks
     now = date.today()
+    cur = mysql.connection.cursor()
     try:
-        cur = mysql.connection.cursor()
         cur.execute(
             "SELECT id, task, dateCreated, dueDate, isCompleted FROM tasks WHERE userId=%s ORDER BY id ASC",
             (user_id,)
@@ -66,10 +66,11 @@ def index():
             if isinstance(t['dateCreated'], datetime):
                 t['dateCreated'] = t['dateCreated'].date()
             t['isCompleted'] = bool(t['isCompleted'])
-        cur.close()
     except Exception as e:
         app.logger.exception("Error fetching tasks")
         tasks = []
+    finally:
+        cur.close()
 
     return render_template("index.html", tasks=tasks, now=now)
 
@@ -238,5 +239,6 @@ def logout():
     return redirect(url_for('login'))
 
 
+# ---------- Main ----------
 if __name__ == '__main__':
     app.run(debug=True)

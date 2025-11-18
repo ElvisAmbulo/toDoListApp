@@ -1,4 +1,4 @@
-MYSQL_HOST = 'localhost'
-MYSQL_USER = 'root'
-MYSQL_PASSWORD = ''
-MYSQL_DB = 'todolist'
+MYSQL_HOST = 'mytodolist1.mysql.pythonanywhere-services.com'
+MYSQL_USER = 'mytodolist1'
+MYSQL_PASSWORD = 'ElvisAmbulo@todolist1'
+MYSQL_DB = 'mytodolist1$todolist'
